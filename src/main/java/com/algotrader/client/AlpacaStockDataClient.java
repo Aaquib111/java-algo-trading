@@ -59,8 +59,8 @@ public class AlpacaStockDataClient {
                 .url(url)
                 .get()
                 .addHeader("accept", "application/json")
-                .addHeader("APCA-API-KEY-ID", "PKT5N9EF8NCC47MI80TP")
-                .addHeader("APCA-API-SECRET-KEY", "kCd3dDPzYKePOMCY843b06fZrs9p4Ie9ZiLs6FTa")
+                .addHeader("APCA-API-KEY-ID", this.apiKey)
+                .addHeader("APCA-API-SECRET-KEY", this.secretKey)
                 .build();
     }
 

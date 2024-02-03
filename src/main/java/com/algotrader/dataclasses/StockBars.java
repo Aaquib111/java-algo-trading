@@ -22,7 +22,18 @@ public class StockBars {
     }
 
     public String toString() {
-        return bars.toString();
+        // Format in a pretty table for each stock
+        StringBuilder sb = new StringBuilder();
+        for (String stock : bars.keySet()) {
+            sb.append(stock + "\n");
+            sb.append("Timestamp\t\tOpen\tHigh\tLow\tClose\tVolume\tVWAP\tNumTransactions\n");
+            for (Bar bar : bars.get(stock)) {
+                sb.append(bar.getTimestamp() + "\t" + bar.getOpen() + "\t" + bar.getHigh() + "\t" + bar.getLow() + "\t"
+                        + bar.getClose() + "\t" + bar.getVolume() + "\t" + bar.getVwap() + "\t" + bar.getNumTransactions()
+                        + "\n");
+            }
+        }
+        return sb.toString();
     }
 }
 
