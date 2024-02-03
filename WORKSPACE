@@ -22,6 +22,7 @@ load("@rules_jvm_external//:defs.bzl", "maven_install")
 
 maven_install(
     artifacts = [
+        "junit:junit:4.13.2",
         "com.squareup.okhttp3:okhttp:4.12.0",
         "com.squareup.okhttp3:okhttp-urlconnection:4.12.0",
         "com.fasterxml.jackson.core:jackson-databind:2.13.0",  # Specify the version you need
