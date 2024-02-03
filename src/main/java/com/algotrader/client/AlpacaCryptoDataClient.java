@@ -11,12 +11,12 @@ import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
-public class AlpacaStockDataClient extends AlpacaBaseDataClient {
+public class AlpacaCryptoDataClient extends AlpacaBaseDataClient {
     String apiKey, secretKey, BASE_URL;
 
-    public AlpacaStockDataClient(String apiKey, String secretKey) {
+    public AlpacaCryptoDataClient(String apiKey, String secretKey) {
         super(apiKey, secretKey);
-        this.BASE_URL = "https://data.alpaca.markets/v2/stocks/";
+        this.BASE_URL = "https://data.alpaca.markets/v1beta3/crypto/us/";
     }
 
     public Bars getHistoricalBars(String[] symbols, String timeframe, String startTime, String endTime,
@@ -26,7 +26,7 @@ public class AlpacaStockDataClient extends AlpacaBaseDataClient {
     }
 
     public Bars getLatestBars(String[] symbols) {
-        String requestUrl = BASE_URL + "bars/latest";
+        String requestUrl = BASE_URL + "latest/bars";
         return super.getLatestBars(symbols, requestUrl);
     }
 
@@ -37,7 +37,7 @@ public class AlpacaStockDataClient extends AlpacaBaseDataClient {
     }
 
     public Quotes getLatestQuotes(String[] symbols) {
-        String requestUrl = BASE_URL + "quotes/latest";
+        String requestUrl = BASE_URL + "latest/quotes";
         return super.getLatestQuotes(symbols, requestUrl);
     }
 
@@ -48,7 +48,7 @@ public class AlpacaStockDataClient extends AlpacaBaseDataClient {
     }
 
     public Trades getLatestTrades(String[] symbols) {
-        String requestUrl = BASE_URL + "trades/latest";
+        String requestUrl = BASE_URL + "latest/trades";
         return super.getLatestTrades(symbols, requestUrl);
     }
 }

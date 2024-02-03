@@ -8,9 +8,9 @@ import static org.junit.Assert.assertNotNull;
 import main.java.com.algotrader.client.AlpacaClientConstants;
 
 import main.java.com.algotrader.client.AlpacaStockDataClient;
-import main.java.com.algotrader.dataclasses.StockBars;
-import main.java.com.algotrader.dataclasses.StockQuotes;
-import main.java.com.algotrader.dataclasses.StockTrades;
+import main.java.com.algotrader.dataclasses.Bars;
+import main.java.com.algotrader.dataclasses.Quotes;
+import main.java.com.algotrader.dataclasses.Trades;
 
 public class AlpacaStockDataClientTest {
 
@@ -25,7 +25,7 @@ public class AlpacaStockDataClientTest {
         AlpacaStockDataClient client = new AlpacaStockDataClient(
                 AlpacaClientConstants.API_KEY,
                 AlpacaClientConstants.SECRET_KEY);
-        StockBars response = client.getHistoricalBars(new String[] { "AAPL", "MSFT" },
+        Bars response = client.getHistoricalBars(new String[] { "AAPL", "MSFT" },
                 "1D", "2024-01-01T00:00:00Z", "2024-01-04T00:00:00Z", 10);
 
         assertNotNull(response);
@@ -37,7 +37,7 @@ public class AlpacaStockDataClientTest {
         AlpacaStockDataClient client = new AlpacaStockDataClient(
                 AlpacaClientConstants.API_KEY,
                 AlpacaClientConstants.SECRET_KEY);
-        StockBars response = client.getLatestBars(new String[] { "AAPL", "MSFT" });
+        Bars response = client.getLatestBars(new String[] { "AAPL", "MSFT" });
         assertNotNull(response);
     }
 
@@ -47,7 +47,7 @@ public class AlpacaStockDataClientTest {
         AlpacaStockDataClient client = new AlpacaStockDataClient(
                 AlpacaClientConstants.API_KEY,
                 AlpacaClientConstants.SECRET_KEY);
-        StockQuotes response = client.getHistoricalQuotes(
+        Quotes response = client.getHistoricalQuotes(
                 new String[] { "AAPL" },
                 "2024-01-01",
                 "2024-01-02",
@@ -61,7 +61,7 @@ public class AlpacaStockDataClientTest {
         AlpacaStockDataClient client = new AlpacaStockDataClient(
                 AlpacaClientConstants.API_KEY,
                 AlpacaClientConstants.SECRET_KEY);
-        StockQuotes response = client.getLatestQuotes(new String[] { "AAPL" });
+        Quotes response = client.getLatestQuotes(new String[] { "AAPL" });
         assertNotNull(response);
     }
 
@@ -71,7 +71,7 @@ public class AlpacaStockDataClientTest {
         AlpacaStockDataClient client = new AlpacaStockDataClient(
                 AlpacaClientConstants.API_KEY,
                 AlpacaClientConstants.SECRET_KEY);
-        StockTrades response = client.getHistoricalTrades(
+        Trades response = client.getHistoricalTrades(
                 new String[] { "AAPL" },
                 "2024-01-01",
                 "2024-01-02",
@@ -85,7 +85,7 @@ public class AlpacaStockDataClientTest {
         AlpacaStockDataClient client = new AlpacaStockDataClient(
                 AlpacaClientConstants.API_KEY,
                 AlpacaClientConstants.SECRET_KEY);
-        StockTrades response = client.getLatestTrades(new String[] { "AAPL" });
+        Trades response = client.getLatestTrades(new String[] { "AAPL" });
         assertNotNull(response);
     }
 }

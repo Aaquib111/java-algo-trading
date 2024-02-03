@@ -18,13 +18,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonDeserialize(using = BarsDeserializer.class)
-public class StockBars {
+public class Bars {
     public Map<String, List<Bar>> bars;
 
-    public StockBars() {
+    public Bars() {
     }
 
-    public StockBars(Map<String, List<Bar>> bars) {
+    public Bars(Map<String, List<Bar>> bars) {
         this.bars = bars;
     }
 
@@ -35,10 +35,10 @@ public class StockBars {
     public String toString() {
         // Format in a pretty table for each stock
         StringBuilder sb = new StringBuilder();
-        for (String stock : bars.keySet()) {
-            sb.append(stock + "\n");
+        for (String security : bars.keySet()) {
+            sb.append(security + "\n");
             sb.append("Timestamp\t\tOpen\tHigh\tLow\tClose\tVolume\tVWAP\tNumTransactions\n");
-            for (Bar bar : bars.get(stock)) {
+            for (Bar bar : bars.get(security)) {
                 sb.append(bar.getTimestamp() + "\t" + bar.getOpen() + "\t" + bar.getHigh() + "\t" + bar.getLow() + "\t"
                         + bar.getClose() + "\t" + bar.getVolume() + "\t" + bar.getVwap() + "\t"
                         + bar.getNumTransactions()
@@ -51,15 +51,15 @@ public class StockBars {
     public static ObjectMapper getObjectMapper(){
         ObjectMapper mapper = new ObjectMapper();
         SimpleModule module = new SimpleModule();
-        module.addDeserializer(StockBars.class, new BarsDeserializer());
+        module.addDeserializer(Bars.class, new BarsDeserializer());
         mapper.registerModule(module);
         return mapper;
     }
 }
 
-class BarsDeserializer extends JsonDeserializer<StockBars> {
+class BarsDeserializer extends JsonDeserializer<Bars> {
     @Override
-    public StockBars deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
+    public Bars deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
         ObjectMapper mapper = (ObjectMapper) jp.getCodec();
         JsonNode root = mapper.readTree(jp);
         JsonNode barsNode = root.get("bars"); // Get the "bars" node directly
@@ -82,7 +82,7 @@ class BarsDeserializer extends JsonDeserializer<StockBars> {
             result.put(symbol, barList);
         });
 
-        return new StockBars(result);
+        return new Bars(result);
     }
 }
 

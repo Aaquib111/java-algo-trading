@@ -19,20 +19,20 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonDeserialize(using = TradesDeserializer.class)
-public class StockTrades {
+public class Trades {
     public Map<String, List<Trade>> trades;
 
-    public StockTrades() {
+    public Trades() {
     }
 
-    public StockTrades(Map<String, List<Trade>> trades) {
+    public Trades(Map<String, List<Trade>> trades) {
         this.trades = trades;
     }
 
     public static ObjectMapper getObjectMapper(){
         ObjectMapper mapper = new ObjectMapper();
         SimpleModule module = new SimpleModule();
-        module.addDeserializer(StockTrades.class, new TradesDeserializer());
+        module.addDeserializer(Trades.class, new TradesDeserializer());
         mapper.registerModule(module);
         return mapper;
     }
@@ -40,10 +40,10 @@ public class StockTrades {
     public String toString() {
         // Format in a pretty table for each stock
         StringBuilder sb = new StringBuilder();
-        for (String stock : this.trades.keySet()) {
-            sb.append(stock + "\n");
+        for (String security : this.trades.keySet()) {
+            sb.append(security + "\n");
             sb.append("Timestamp\t\tID\tPrice\tSize\tExchange\n");
-            for (Trade trade : this.trades.get(stock)) {
+            for (Trade trade : this.trades.get(security)) {
                 sb.append(trade.getTimestamp() + "\t" + trade.getID() + "\t" + trade.getPrice() + "\t" + trade.getSize()
                         + "\t" + trade.getExchange() + "\n");
             }
@@ -52,9 +52,9 @@ public class StockTrades {
     }
 }
 
-class TradesDeserializer extends JsonDeserializer<StockTrades> {
+class TradesDeserializer extends JsonDeserializer<Trades> {
     @Override
-    public StockTrades deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
+    public Trades deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
         ObjectMapper mapper = (ObjectMapper) jp.getCodec();
         JsonNode root = mapper.readTree(jp);
         JsonNode tradesNode = root.get("trades"); // Get the "trades" node directly
@@ -77,7 +77,7 @@ class TradesDeserializer extends JsonDeserializer<StockTrades> {
             result.put(symbol, tradesList);
         });
 
-        return new StockTrades(result);
+        return new Trades(result);
     }
 }
 

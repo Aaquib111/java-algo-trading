@@ -19,20 +19,20 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonDeserialize(using = QuotesDeserializer.class)
-public class StockQuotes {
+public class Quotes {
     public Map<String, List<Quote>> quotes;
 
-    public StockQuotes() {
+    public Quotes() {
     }
 
-    public StockQuotes(Map<String, List<Quote>> quotes) {
+    public Quotes(Map<String, List<Quote>> quotes) {
         this.quotes = quotes;
     }
 
     public static ObjectMapper getObjectMapper(){
         ObjectMapper mapper = new ObjectMapper();
         SimpleModule module = new SimpleModule();
-        module.addDeserializer(StockQuotes.class, new QuotesDeserializer());
+        module.addDeserializer(Quotes.class, new QuotesDeserializer());
         mapper.registerModule(module);
         return mapper;
     }
@@ -40,10 +40,10 @@ public class StockQuotes {
     public String toString() {
         // Format in a pretty table for each stock
         StringBuilder sb = new StringBuilder();
-        for (String stock : this.quotes.keySet()) {
-            sb.append(stock + "\n");
+        for (String security : this.quotes.keySet()) {
+            sb.append(security + "\n");
             sb.append("Timestamp\t\tAskPrice\tAskSize\tAskEx\tBidPrice\tBidSize\tBidEx\n");
-            for (Quote quote : this.quotes.get(stock)) {
+            for (Quote quote : this.quotes.get(security)) {
                 sb.append(quote.getTimestamp() + "\t" + quote.getAskPrice() + "\t" + quote.getAskSize() + "\t" + quote.getAskExchange() + "\t"
                         + quote.getBidPrice() + "\t" + quote.getBidSize() + "\t" + quote.getBidExchange() + "\t"
                         + "\n");
@@ -53,9 +53,9 @@ public class StockQuotes {
     }
 }
 
-class QuotesDeserializer extends JsonDeserializer<StockQuotes> {
+class QuotesDeserializer extends JsonDeserializer<Quotes> {
     @Override
-    public StockQuotes deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
+    public Quotes deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
         ObjectMapper mapper = (ObjectMapper) jp.getCodec();
         JsonNode root = mapper.readTree(jp);
         JsonNode quotesNode = root.get("quotes"); // Get the "quotes" node directly
@@ -78,7 +78,7 @@ class QuotesDeserializer extends JsonDeserializer<StockQuotes> {
             result.put(symbol, quotesList);
         });
 
-        return new StockQuotes(result);
+        return new Quotes(result);
     }
 }
 
