@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
 import main.java.com.algotrader.dataclasses.StockBars;
-
+import main.java.com.algotrader.dataclasses.StockQuotes;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -60,11 +60,59 @@ public class AlpacaStockDataClient {
         Request req = buildRequestFromURL(url);
 
         try {
-            ObjectMapper mapper = new ObjectMapper();
+            ObjectMapper mapper = StockBars.getObjectMapper();
 
             String response = this.client.newCall(req).execute().body().string();
             System.out.println(response);
             return mapper.readValue(response, StockBars.class);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public StockQuotes getHistoricalQuotes(String[] symbols, String startTime, String endTime,
+            int limit) {
+        HttpUrl.Builder urlBuilder = HttpUrl.parse(BASE_URL + "quotes").newBuilder();
+        urlBuilder.addQueryParameter("feed", "sip");
+        urlBuilder.addQueryParameter("sort", "asc");
+        urlBuilder.addQueryParameter("symbols", String.join(",", symbols));
+        urlBuilder.addQueryParameter("start", startTime);
+        urlBuilder.addQueryParameter("end", endTime);
+        urlBuilder.addQueryParameter("limit", Integer.toString(limit));
+        String url = urlBuilder.build().toString();
+
+        Request req = buildRequestFromURL(url);
+
+        try {
+            ObjectMapper mapper = StockQuotes.getObjectMapper();
+
+            String response = this.client.newCall(req).execute().body().string();
+            System.out.println(response);
+            return mapper.readValue(response, StockQuotes.class);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public StockQuotes getLatestQuotes(String[] symbols) {
+        HttpUrl.Builder urlBuilder = HttpUrl.parse(BASE_URL + "quotes/latest").newBuilder();
+        urlBuilder.addQueryParameter("symbols", String.join(",", symbols));
+        urlBuilder.addQueryParameter("feed", "iex");
+
+        String url = urlBuilder.build().toString();
+
+        Request req = buildRequestFromURL(url);
+
+        try {
+            ObjectMapper mapper = StockQuotes.getObjectMapper();
+
+            String response = this.client.newCall(req).execute().body().string();
+            System.out.println(response);
+            return mapper.readValue(response, StockQuotes.class);
 
         } catch (IOException e) {
             e.printStackTrace();
