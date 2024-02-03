@@ -1,16 +1,16 @@
 package main.java.com.algotrader.client;
 
-import main.java.com.algotrader.dataclasses.StockBars;
-
 import java.io.IOException;
-
-import okhttp3.OkHttpClient;
-import okhttp3.HttpUrl;
-import okhttp3.Request;
-import okhttp3.Response;
+import java.util.Map;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 
+import main.java.com.algotrader.dataclasses.StockBars;
+
+import okhttp3.HttpUrl;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 public class AlpacaStockDataClient {
     String apiKey, secretKey, BASE_URL;
     OkHttpClient client;
@@ -25,7 +25,9 @@ public class AlpacaStockDataClient {
     public StockBars getHistoricalBars(String[] symbols, String timeframe, String startTime, String endTime,
             int limit) {
         HttpUrl.Builder urlBuilder = HttpUrl.parse(BASE_URL + "bars").newBuilder();
-        urlBuilder = addBaseQueries(urlBuilder);
+        urlBuilder.addQueryParameter("adjustment", "raw");
+        urlBuilder.addQueryParameter("feed", "sip");
+        urlBuilder.addQueryParameter("sort", "asc");
         urlBuilder.addQueryParameter("symbols", String.join(",", symbols));
         urlBuilder.addQueryParameter("timeframe", timeframe);
         urlBuilder.addQueryParameter("start", startTime);
@@ -36,9 +38,10 @@ public class AlpacaStockDataClient {
         Request req = buildRequestFromURL(url);
 
         try {
-            ObjectMapper mapper = new ObjectMapper();
+            ObjectMapper mapper = StockBars.getObjectMapper();
 
             String response = this.client.newCall(req).execute().body().string();
+            System.out.println(response);
             return mapper.readValue(response, StockBars.class);
 
         } catch (IOException e) {
@@ -47,11 +50,26 @@ public class AlpacaStockDataClient {
         }
     }
 
-    private HttpUrl.Builder addBaseQueries(HttpUrl.Builder builder) {
-        builder.addQueryParameter("adjustment", "raw");
-        builder.addQueryParameter("feed", "sip");
-        builder.addQueryParameter("sort", "asc");
-        return builder;
+    public StockBars getLatestBars(String[] symbols) {
+        HttpUrl.Builder urlBuilder = HttpUrl.parse(BASE_URL + "bars/latest").newBuilder();
+        urlBuilder.addQueryParameter("symbols", String.join(",", symbols));
+        urlBuilder.addQueryParameter("feed", "iex");
+
+        String url = urlBuilder.build().toString();
+
+        Request req = buildRequestFromURL(url);
+
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+
+            String response = this.client.newCall(req).execute().body().string();
+            System.out.println(response);
+            return mapper.readValue(response, StockBars.class);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     private Request buildRequestFromURL(String url) {

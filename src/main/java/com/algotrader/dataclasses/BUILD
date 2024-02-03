@@ -4,6 +4,7 @@ java_library(
     visibility = ["//visibility:public"],
     deps = [
         "@maven//:com_fasterxml_jackson_core_jackson_databind",
-        "@maven//:com_fasterxml_jackson_core_jackson_annotations"
+        "@maven//:com_fasterxml_jackson_core_jackson_annotations",
+        "@maven//:com_fasterxml_jackson_core_jackson_core",
     ],
 )
