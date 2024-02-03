@@ -9,6 +9,7 @@ import main.java.com.algotrader.client.AlpacaClientConstants;
 import main.java.com.algotrader.client.AlpacaStockDataClient;
 import main.java.com.algotrader.dataclasses.StockBars;
 import main.java.com.algotrader.dataclasses.StockQuotes;
+import main.java.com.algotrader.dataclasses.StockTrades;
 
 class Driver {
     public static void main(String[] args) {
@@ -26,7 +27,14 @@ class Driver {
         //         "2024-01-01",
         //         "2024-01-02",
         //         3);
-        StockQuotes response = client.getLatestQuotes(new String[] { "AAPL" });
+        // StockQuotes response = client.getLatestQuotes(new String[] { "AAPL" });
+        // StockTrades response = client.getHistoricalTrades(
+        //         new String[] { "AAPL" },
+        //         "2024-01-01",
+        //         "2024-01-02",
+        //         3);
+
+        StockTrades response = client.getLatestTrades(new String[] { "AAPL" });
         System.out.println(response);
     }
 }

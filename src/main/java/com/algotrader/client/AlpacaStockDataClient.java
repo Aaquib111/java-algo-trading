@@ -1,16 +1,16 @@
 package main.java.com.algotrader.client;
 
 import java.io.IOException;
-import java.util.Map;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
 
 import main.java.com.algotrader.dataclasses.StockBars;
 import main.java.com.algotrader.dataclasses.StockQuotes;
+import main.java.com.algotrader.dataclasses.StockTrades;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+
 public class AlpacaStockDataClient {
     String apiKey, secretKey, BASE_URL;
     OkHttpClient client;
@@ -120,6 +120,54 @@ public class AlpacaStockDataClient {
         }
     }
 
+    public StockTrades getHistoricalTrades(String[] symbols, String startTime, String endTime,
+            int limit) {
+        HttpUrl.Builder urlBuilder = HttpUrl.parse(BASE_URL + "trades").newBuilder();
+        urlBuilder.addQueryParameter("feed", "sip");
+        urlBuilder.addQueryParameter("sort", "asc");
+        urlBuilder.addQueryParameter("symbols", String.join(",", symbols));
+        urlBuilder.addQueryParameter("start", startTime);
+        urlBuilder.addQueryParameter("end", endTime);
+        urlBuilder.addQueryParameter("limit", Integer.toString(limit));
+        String url = urlBuilder.build().toString();
+
+        Request req = buildRequestFromURL(url);
+
+        try {
+            ObjectMapper mapper = StockTrades.getObjectMapper();
+
+            String response = this.client.newCall(req).execute().body().string();
+            System.out.println(response);
+            return mapper.readValue(response, StockTrades.class);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public StockTrades getLatestTrades(String[] symbols) {
+        HttpUrl.Builder urlBuilder = HttpUrl.parse(BASE_URL + "trades/latest").newBuilder();
+        urlBuilder.addQueryParameter("symbols", String.join(",", symbols));
+        urlBuilder.addQueryParameter("feed", "iex");
+
+        String url = urlBuilder.build().toString();
+
+        Request req = buildRequestFromURL(url);
+
+        try {
+            ObjectMapper mapper = StockTrades.getObjectMapper();
+
+            String response = this.client.newCall(req).execute().body().string();
+            System.out.println(response);
+            return mapper.readValue(response, StockTrades.class);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     private Request buildRequestFromURL(String url) {
         return new Request.Builder()
                 .url(url)
@@ -129,5 +177,4 @@ public class AlpacaStockDataClient {
                 .addHeader("APCA-API-SECRET-KEY", this.secretKey)
                 .build();
     }
-
 }
