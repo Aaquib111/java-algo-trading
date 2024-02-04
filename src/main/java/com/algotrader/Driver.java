@@ -8,12 +8,16 @@ import java.util.Properties;
 import main.java.com.algotrader.client.AlpacaClientConstants;
 import main.java.com.algotrader.client.AlpacaCryptoDataClient;
 import main.java.com.algotrader.client.AlpacaStockDataClient;
+import main.java.com.algotrader.client.AlpacaStreamDataClient;
 import main.java.com.algotrader.dataclasses.Orderbooks;
 import main.java.com.algotrader.dataclasses.Bars;
+import main.java.com.algotrader.dataclasses.DataCallbackFunction;
+import main.java.com.algotrader.dataclasses.MarketData;
 import main.java.com.algotrader.dataclasses.Quotes;
 import main.java.com.algotrader.dataclasses.Trades;
 
-class Driver {
+
+public class Driver {
     public static void main(String[] args) {
         InputStream inputStream = Driver.class.getResourceAsStream("/.env");
 
@@ -26,7 +30,24 @@ class Driver {
                 AlpacaClientConstants.API_KEY,
                 AlpacaClientConstants.SECRET_KEY);
         
-        Orderbooks o = cryptoClient.getLatestOrderbooks(new String[]{"BTC/USD", "LTC/USD"});
-        System.out.println(o);
+        DataCallbackFunction callback = (MarketData data) -> System.out.println(data);
+
+        AlpacaStreamDataClient streamClient = new AlpacaStreamDataClient(
+                "wss://stream.data.alpaca.markets/v2/iex",
+                AlpacaClientConstants.API_KEY,
+                AlpacaClientConstants.SECRET_KEY,
+                callback);
+
+        streamClient.run();
+
+        try{
+            streamClient.awaitAuthentication();
+            streamClient.subscribeQuotes(new String[] {"BTCUSD"});
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        streamClient.closeConnection();
     }
 }

@@ -27,5 +27,7 @@ hs_err_pid*
 replay_pid*
 
 # Bazel files
-.bazelrc
-**/bazel-*/
+/bazel-*
+/bazel-out/
+/bazel-bin/
+/bazel-testlogs/

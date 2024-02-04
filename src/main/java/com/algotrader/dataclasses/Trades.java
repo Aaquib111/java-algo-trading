@@ -19,7 +19,7 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonDeserialize(using = TradesDeserializer.class)
-public class Trades {
+public class Trades implements MarketData {
     public Map<String, List<Trade>> trades;
 
     public Trades() {
@@ -78,64 +78,5 @@ class TradesDeserializer extends JsonDeserializer<Trades> {
         });
 
         return new Trades(result);
-    }
-}
-
-@JsonIgnoreProperties(ignoreUnknown = true)
-class Trade {
-
-    @JsonProperty("i")
-    private int ID;
-    @JsonProperty("p")
-    private double price;
-    @JsonProperty("s")
-    private int size;
-    @JsonProperty("x")
-    private String exchange;
-    @JsonProperty("t")
-    private String timestamp;
-
-    // Setters
-
-    public void setID(int ID) {
-        this.ID = ID;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public void setSize(int size) {
-        this.size = size;
-    }
-
-    public void setExchange(String exchange) {
-        this.exchange = exchange;
-    }
-
-    public void setTimestamp(String timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    // Getters
-
-    public int getID() {
-        return this.ID;
-    }
-
-    public double getPrice() {
-        return this.price;
-    }
-
-    public int getSize() {
-        return this.size;
-    }
-
-    public String getExchange() {
-        return this.exchange;
-    }
-
-    public String getTimestamp() {
-        return this.timestamp;
     }
 }
