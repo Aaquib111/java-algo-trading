@@ -19,6 +19,9 @@ public class AlpacaStockDataClientTest {
         AlpacaClientConstants.initalizeFromFile(inputStream);
     }
 
+    /**
+     * Tests @link AlpacaStockDataClient#getHistoricalBars(String[], String, String, String, int)}
+     */
     @Test
     public void testGetHistoricalBars() {
         initializeClientConstants();
@@ -31,6 +34,9 @@ public class AlpacaStockDataClientTest {
         assertNotNull(response);
     }
 
+    /**
+     * Tests @link AlpacaStockDataClient#getLatestBars(String[])}
+     */
     @Test
     public void testGetLatestBars() {
         initializeClientConstants();
@@ -41,6 +47,9 @@ public class AlpacaStockDataClientTest {
         assertNotNull(response);
     }
 
+    /**
+     * Tests @link AlpacaStockDataClient#getHistoricalQuotes(String[], String, String, int)}
+     */
     @Test
     public void testGetHistoricalQuotes(){
         initializeClientConstants();
@@ -55,6 +64,9 @@ public class AlpacaStockDataClientTest {
         assertNotNull(response);
     }
 
+    /**
+     * Tests @link AlpacaStockDataClient#getLatestQuotes(String[])}
+     */
     @Test
     public void testGetLatestQuotes(){
         initializeClientConstants();
@@ -65,6 +77,9 @@ public class AlpacaStockDataClientTest {
         assertNotNull(response);
     }
 
+    /**
+     * Tests @link AlpacaStockDataClient#getHistoricalTrades(String[], String, String, int)}
+     */
     @Test
     public void testGetHistoricalTrades(){
         initializeClientConstants();
@@ -79,6 +94,9 @@ public class AlpacaStockDataClientTest {
         assertNotNull(response);
     }
 
+    /**
+     * Tests @link AlpacaStockDataClient#getLatestTrades(String[])}
+     */
     @Test
     public void testGetLatestTrades(){
         initializeClientConstants();

@@ -53,7 +53,6 @@ public class AlpacaBaseDataClient {
     public Bars getLatestBars(String[] symbols, String requestUrl) {
         HttpUrl.Builder urlBuilder = HttpUrl.parse(requestUrl).newBuilder();
         urlBuilder.addQueryParameter("symbols", String.join(",", symbols));
-        urlBuilder.addQueryParameter("feed", "iex");
 
         String url = urlBuilder.build().toString();
 

@@ -9,6 +9,9 @@ import main.java.com.algotrader.client.AlpacaClientConstants;
 
 public class AlpacaClientConstantsTest {
 
+    /**
+     * Tests {@link AlpacaClientConstants#initalizeFromFile(InputStream)}
+     */
     @Test
     public void testInitalizeFromFile() {
         InputStream inputStream = AlpacaClientConstantsTest.class.getResourceAsStream("/.test_env");

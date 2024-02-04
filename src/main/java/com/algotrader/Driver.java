@@ -30,24 +30,25 @@ public class Driver {
                 AlpacaClientConstants.API_KEY,
                 AlpacaClientConstants.SECRET_KEY);
         
-        DataCallbackFunction callback = (MarketData data) -> System.out.println(data);
+        System.out.println(cryptoClient.getLatestBars(new String[] {"BTCUSD"}));
+        // DataCallbackFunction callback = (MarketData data) -> System.out.println(data);
 
-        AlpacaStreamDataClient streamClient = new AlpacaStreamDataClient(
-                "wss://stream.data.alpaca.markets/v2/iex",
-                AlpacaClientConstants.API_KEY,
-                AlpacaClientConstants.SECRET_KEY,
-                callback);
+        // AlpacaStreamDataClient streamClient = new AlpacaStreamDataClient(
+        //         "wss://stream.data.alpaca.markets/v2/iex",
+        //         AlpacaClientConstants.API_KEY,
+        //         AlpacaClientConstants.SECRET_KEY,
+        //         callback);
 
-        streamClient.run();
+        // streamClient.run();
 
-        try{
-            streamClient.awaitAuthentication();
-            streamClient.subscribeQuotes(new String[] {"BTCUSD"});
-            Thread.sleep(10000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        // try{
+        //     streamClient.awaitAuthentication();
+        //     streamClient.subscribeQuotes(new String[] {"BTCUSD"});
+        //     Thread.sleep(10000);
+        // } catch (InterruptedException e) {
+        //     e.printStackTrace();
+        // }
 
-        streamClient.closeConnection();
+        // streamClient.closeConnection();
     }
 }
