@@ -3,6 +3,9 @@ package main.java.com.algotrader.dataclasses;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * Quote class. Holds best bid and ask data.
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Quote implements MarketData {
 

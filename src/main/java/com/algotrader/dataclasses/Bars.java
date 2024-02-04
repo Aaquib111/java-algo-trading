@@ -16,14 +16,25 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+
+/**
+ * A class to represent a collection of bars for multiple securities.
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonDeserialize(using = BarsDeserializer.class)
 public class Bars implements MarketData {
     public Map<String, List<Bar>> bars;
 
+    /**
+     * Default constructor.
+     */
     public Bars() {
     }
 
+    /**
+     * Constructor.
+     * @param bars
+     */
     public Bars(Map<String, List<Bar>> bars) {
         this.bars = bars;
     }
@@ -48,6 +59,10 @@ public class Bars implements MarketData {
         return sb.toString();
     }
 
+    /**
+     * Get an ObjectMapper for deserializing Bars objects.
+     * @return ObjectMapper
+     */
     public static ObjectMapper getObjectMapper(){
         ObjectMapper mapper = new ObjectMapper();
         SimpleModule module = new SimpleModule();
@@ -57,6 +72,9 @@ public class Bars implements MarketData {
     }
 }
 
+/**
+ * A custom deserializer for Bars objects.
+ */
 class BarsDeserializer extends JsonDeserializer<Bars> {
     @Override
     public Bars deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {

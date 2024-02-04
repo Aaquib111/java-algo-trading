@@ -3,6 +3,9 @@ package main.java.com.algotrader.dataclasses;
 import java.util.Map;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * Orderbooks class
+ */
 public class Orderbooks implements MarketData {
     private Map<String, Orderbook> orderbooks;
 

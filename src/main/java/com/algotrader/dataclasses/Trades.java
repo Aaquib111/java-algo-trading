@@ -17,6 +17,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
+/**
+ * A class to represent a collection of trades for multiple securities.
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonDeserialize(using = TradesDeserializer.class)
 public class Trades implements MarketData {
@@ -52,6 +55,9 @@ public class Trades implements MarketData {
     }
 }
 
+/**
+ * Custom deserializer for the Trades class.
+ */
 class TradesDeserializer extends JsonDeserializer<Trades> {
     @Override
     public Trades deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {

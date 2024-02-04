@@ -1,35 +1,37 @@
 package main.java.com.algotrader.dataclasses;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+/**
+ * Bar class for market data
+ */
 public class Bar implements MarketData {
 
     @JsonProperty("S")
     private String symbol;
     
     @JsonProperty("c")
-    private double close; // Close
+    private double close;
 
     @JsonProperty("h")
-    private double high; // High
+    private double high;
 
     @JsonProperty("l")
-    private double low; // Low
+    private double low; 
 
     @JsonProperty("o")
-    private double open; // Open
+    private double open;
 
     @JsonProperty("v")
-    private long volume; // Volume
+    private long volume;
 
     @JsonProperty("vw")
     private double vwap; // Volume Weighted Average Price
 
     @JsonProperty("t")
-    private String timestamp; // Timestamp
+    private String timestamp;
 
     @JsonProperty("n")
-    private int numTransactions; // Number of transactions
+    private int numTransactions; 
 
     public Bar() {
     }

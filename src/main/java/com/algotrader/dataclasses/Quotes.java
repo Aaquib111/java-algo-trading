@@ -17,6 +17,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
+/**
+ * A class to represent a collection of quotes for multiple securities.
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonDeserialize(using = QuotesDeserializer.class)
 public class Quotes implements MarketData {

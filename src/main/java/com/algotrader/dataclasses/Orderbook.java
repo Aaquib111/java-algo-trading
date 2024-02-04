@@ -4,6 +4,9 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * Orderbook class
+ */
 public class Orderbook implements MarketData {
     @JsonProperty("a")
     private List<Order> asks; // Asks
@@ -38,6 +41,9 @@ public class Orderbook implements MarketData {
     }
 }
 
+/**
+ * Order class
+ */
 class Order {
     @JsonProperty("p")
     private double price; // Price
