@@ -5,6 +5,7 @@ import java.io.IOException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import main.java.com.algotrader.dataclasses.Bars;
+import main.java.com.algotrader.dataclasses.Orderbooks;
 import main.java.com.algotrader.dataclasses.Quotes;
 import main.java.com.algotrader.dataclasses.Trades;
 import okhttp3.HttpUrl;
@@ -50,5 +51,35 @@ public class AlpacaCryptoDataClient extends AlpacaBaseDataClient {
     public Trades getLatestTrades(String[] symbols) {
         String requestUrl = BASE_URL + "latest/trades";
         return super.getLatestTrades(symbols, requestUrl);
+    }
+
+    public Orderbooks getLatestOrderbooks(String[] symbols) {
+        String requestUrl = BASE_URL + "latest/orderbooks";
+        HttpUrl.Builder urlBuilder = HttpUrl.parse(requestUrl).newBuilder();
+        urlBuilder.addQueryParameter("symbols", String.join(",", symbols));
+
+        String url = urlBuilder.build().toString();
+
+        Request req = buildRequestFromURL(url);
+
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            String response = this.client.newCall(req).execute().body().string();
+            return mapper.readValue(response, Orderbooks.class);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private Request buildRequestFromURL(String url) {
+        return new Request.Builder()
+                .url(url)
+                .get()
+                .addHeader("accept", "application/json")
+                // .addHeader("APCA-API-KEY-ID", this.apiKey)
+                // .addHeader("APCA-API-SECRET-KEY", this.secretKey)
+                .build();
     }
 }

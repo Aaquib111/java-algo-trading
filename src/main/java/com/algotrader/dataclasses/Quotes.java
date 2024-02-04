@@ -84,19 +84,25 @@ class QuotesDeserializer extends JsonDeserializer<Quotes> {
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 class Quote {
+
     @JsonProperty("ap")
     private double askPrice;
+
     @JsonProperty("as")
     private int askSize;
+
     @JsonProperty("ax")
     private String askExchange;
 
     @JsonProperty("bp")
     private double bidPrice;
+
     @JsonProperty("bs")
     private int bidSize;
+
     @JsonProperty("bx")
     private String bidExchange;
+
     @JsonProperty("t")
     private String timestamp;
 
